@@ -36,6 +36,60 @@
             display: inline-block;
         }
 
+        .onigiri {
+            background-color: rgb(211, 211, 211);
+            height: 40px;
+            width: 40px;
+            display: inline-block;
+            background-image: url('onigiri.png');
+            background-size: contain;
+        }
+
+        .pumpky {
+            background-color: rgb(211, 211, 211);
+            height: 40px;
+            width: 40px;
+            display: inline-block;
+            background-image: url('pumpky.gif');
+            background-size: contain;
+        }
+
+        .bluey {
+            background-color: rgb(211, 211, 211);
+            height: 40px;
+            width: 40px;
+            display: inline-block;
+            background-image: url('bluey.gif');
+            background-size: contain;
+        }
+
+        .red {
+            background-color: rgb(211, 211, 211);
+            height: 40px;
+            width: 40px;
+            display: inline-block;
+            background-image: url('red.gif');
+            background-size: contain;
+        }
+
+        .pinky {
+            background-color: rgb(211, 211, 211);
+            height: 40px;
+            width: 40px;
+            display: inline-block;
+            background-image: url('pinky.gif');
+            background-size: contain;
+        }
+
+        .scaredy {
+            background-color: rgb(211, 211, 211);
+            height: 40px;
+            width: 40px;
+            display: inline-block;
+            background-image: url('scaredy.png');
+            background-size: contain;
+        }
+
         #ninjaman {
             background-color: rgb(211, 211, 211);
             height: 40px;
@@ -51,25 +105,37 @@
 <body>
     <div id='world'></div>
     <div id='ninjaman'></div>
+    <div id='scorePlayer'></div>
+    <div id='scoreSushi'></div>
+    <div id='scoreOnigiri'></div>
+    <div id='vidas'></div>
+
 </body>
 <script type="text/javascript">
     var world = [
-        [1, 1, 1, 1, 1],
-        [1, 0, 2, 2, 1],
-        [1, 2, 1, 2, 1],
-        [1, 2, 2, 2, 1],
-        [1, 2, 1, 2, 1],
-        [1, 2, 2, 2, 1],
-        [1, 2, 1, 2, 1],
-        [1, 2, 2, 2, 1],
-        [1, 2, 1, 2, 1],
-        [1, 2, 2, 2, 1],
-        [1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 0, 2, 0, 0, 0, 0, 2, 6, 1],
+        [1, 3, 1, 0, 1, 1, 0, 1, 3, 1],
+        [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+        [1, 0, 0, 0, 1, 1, 0, 0, 0, 1],
+        [1, 0, 1, 0, 0, 7, 0, 1, 0, 1],
+        [1, 0, 0, 0, 1, 1, 0, 0, 0, 1],
+        [1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
+        [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+        [1, 3, 1, 0, 1, 1, 0, 1, 3, 1],
+        [1, 8, 2, 0, 0, 0, 0, 2, 5, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     ];
     var worldDict = {
         0: 'blank',
         1: 'wall',
-        2: 'sushi'
+        2: 'sushi',
+        3: 'onigiri',
+        4: 'bluey',
+        5: 'pinky',
+        6: 'pumpky',
+        7: 'red',
+        8: 'scaredy',
     }
     function drawWorld() {
         output = "";
@@ -83,51 +149,119 @@
         document.getElementById('world').innerHTML = output;
     }
     drawWorld();
+    // vidas del player
+    var vidas = 3;
+    // Scores
+    var scorePlayer = 0;
+    var scoreSushi = 0;
+    var scoreOnigiri = 0;
+    // puntos de los items
+    var scoreItems = {
+        sushi: 10,
+        onigiri: 5,
+        scaredy: 20
+    }
+    // Posicion inicial
     var ninjaman = {
         x: 1,
         y: 1
     }
+    // Se actualiza la posicion del Player
     function drawNinjaman() {
         document.getElementById('ninjaman').style.top = ninjaman.y * 40 + 'px';
         document.getElementById('ninjaman').style.left = ninjaman.x * 40 + 'px';
     }
+
+    function drawScore() {
+        document.getElementById('scorePlayer').innerHTML =
+            'Score Partida = ' + scorePlayer;
+        document.getElementById('scoreSushi').innerHTML =
+            'Score Sushi = ' + scoreSushi;
+        document.getElementById('scoreOnigiri').innerHTML =
+            'Score Onigiri = ' + scoreOnigiri;
+        document.getElementById('vidas').innerHTML =
+            'Vidas del Jugador = ' + vidas;
+    }
+    drawScore();
     drawNinjaman();
+
     document.onkeydown = function (e) {
         if (e.keyCode == 37) { // left
             if (world[ninjaman.y][ninjaman.x - 1] != 1) {
                 ninjaman.x--;
             }
         }
-        if (e.keyCode == 39) {
+        if (e.keyCode == 39) { // right
             if (world[ninjaman.y][ninjaman.x + 1] != 1) {
                 ninjaman.x++;
             }
         }
-        if (e.keyCode == 38) {
+        if (e.keyCode == 38) { // down
             if (world[ninjaman.y - 1][ninjaman.x] != 1) {
                 ninjaman.y--;
             }
         }
-        if (e.keyCode == 40) {
+        if (e.keyCode == 40) { // up
             if (world[ninjaman.y + 1][ninjaman.x] != 1) {
                 ninjaman.y++;
             }
         }
         // add going down functionality
+        //Detecta cuando pasa por un sushi
+        if (world[ninjaman.y][ninjaman.x] == 2) {
+            console.log("Comió un sushi!");
+            scorePlayer += scoreItems.sushi;
+            scoreSushi++;
+            console.log(scorePlayer, scoreSushi);
+        }
+        if (world[ninjaman.y][ninjaman.x] == 3) {
+            console.log("Comió un onigiri!");
+            scorePlayer += scoreItems.onigiri;
+            scoreOnigiri++;
+            console.log(scorePlayer, scoreOnigiri);
+        }
+        if (world[ninjaman.y][ninjaman.x] == 4) {
+            console.log("Tocó un fantasma!");
+            vidas--;
+        }
+        if (world[ninjaman.y][ninjaman.x] == 5) {
+            console.log("Tocó un fantasma!");
+            vidas--;
+        }
+        if (world[ninjaman.y][ninjaman.x] == 6) {
+            console.log("Tocó un fantasma!");
+            vidas--;
+        }
+        if (world[ninjaman.y][ninjaman.x] == 7) {
+            console.log("Tocó un fantasma!");
+            vidas--;
+        }
+        if (world[ninjaman.y][ninjaman.x] == 8) {
+            console.log("Comió un fantasma!");
+            scorePlayer += scoreItems.scaredy;
+        }
+        // limpia el world
         world[ninjaman.y][ninjaman.x] = 0;
+        drawScore();
         drawNinjaman();
         drawWorld();
     }
     /*
-    keep score of how many sushi's ninjaman eats
-    sushi = 10pts onigiri = 5pts
-    advance challenges - random world
-    hacker challenges - create ghosts that chase ninjaman
-    (Básico) Lleva el puntaje de cuántas piezas de sushi come NinjaMan
-    (Básico) Agrega Onigiri como alimento alternativo para comer 
-    (Intermedio) Genera un mundo aleatorio cuando se carga la página
-    (Avanzado) Agrega fantasmas que persigan a NinjaMan
+    [Readys]
+    [ok] keep score of how many sushi's ninjaman eats
+    [ok] sushi = 10pts onigiri = 5pts
+    [ok](Básico) Lleva el puntaje de cuántas piezas de sushi come NinjaMan
+    [ok](Básico) Agrega Onigiri como alimento alternativo para comer 
+    [ok] Agrega fantasmas en el mundo
+
+    [In Process]
+    [...]advance challenges - random world
+    [...](Intermedio) Genera un mundo aleatorio cuando se carga la página
     (Avanzado) Dale a NinjaMan 3 vidas. El Juego termina cuando un fantasma toca a NinjaMan 3 veces
+    
+    [Upcoming features]
+    hacker challenges - create ghosts that chase ninjaman
+    (Avanzado) Agrega fantasmas que persigan a NinjaMan
     */
 </script>
 
