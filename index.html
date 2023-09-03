@@ -102,12 +102,14 @@
         }
 
         #contenedor_mundo {
-            background-color: rgb(18, 219, 255);
+            background-color: rgb(66, 75, 77);
             width: fit-content;
+            border-radius: 10px;
+
         }
 
         #mundo_random {
-            background-color: aqua;
+            background-color: rgb(57, 104, 104);
             width: fit-content;
             margin: auto;
             padding: 10px;
@@ -123,8 +125,8 @@
 <body>
     <div id='contenedor_mundo'>
         <div id='world'></div>
-        <div id='ninjaman'></div>
         <div id='mundo_random'> Presiona la tecla 'R' para crear un Mundo Aleatorio!</div>
+        <div id='ninjaman'></div>
         <div id='informaciones'>
             <div id='scorePlayer'></div>
             <div id='scoreSushi'></div>
@@ -137,18 +139,37 @@
 <script type="text/javascript">
     var world = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), 1],
-        [1, gr(0, 1), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 1), 1],
-        [1, gr(0, 1), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 1), 1],
-        [1, gr(0, 1), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(4, 7), gr(0, 1), 1],
-        [1, gr(0, 1), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 1), 1],
-        [1, gr(0, 1), gr(1, 4), gr(1, 4), gr(1, 4), gr(4, 7), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 1), 1],
-        [1, gr(0, 1), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 1), 1],
-        [1, gr(0, 1), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 1), 1],
-        [1, gr(0, 1), gr(4, 7), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(4, 7), gr(0, 1), 1],
-        [1, gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     ];
+    // vidas del player
+    var vidas = 3;
+    // Scores
+    var scorePlayer = 0;
+    var scoreSushi = 0;
+    var scoreOnigiri = 0;
+    var scoreFantasmas = 0;
+    // puntos de los items
+    var scoreItems = {
+        sushi: 10,
+        onigiri: 5,
+        scaredy: 20
+    }
+    // Posicion inicial
+    var ninjaman = {
+        x: 5,
+        y: 5
+    }
     var worldDict = {
         0: 'blank',
         1: 'wall',
@@ -159,6 +180,18 @@
         6: 'pumpky',
         7: 'red',
         8: 'scaredy',
+    }
+    generarMundoAleatorio();
+    drawWorld();
+    drawNinjaman();
+    drawScore();
+    function generarMundoAleatorio() {
+        for (var i = 0; i < world.length; i++) {
+            for (var j = 0; j < world[i].length; j++) {
+                console.log(world[i][1]);
+                world[i][j] = gr(0, 8);
+            }
+        }
     }
     function drawWorld() {
         output = "";
@@ -171,7 +204,21 @@
         }
         document.getElementById('world').innerHTML = output;
     }
-    drawWorld();
+    // Se actualiza la posicion del Player
+    function drawNinjaman() {
+        document.getElementById('ninjaman').style.top = ninjaman.y * 40 + 'px';
+        document.getElementById('ninjaman').style.left = ninjaman.x * 40 + 'px';
+    }
+    // Actualizar Scores y Vida
+    function drawScore() {
+        document.getElementById('scorePlayer').innerHTML = 'Score Partida = ' + scorePlayer;
+        document.getElementById('scoreSushi').innerHTML = 'Score Sushi = ' + scoreSushi;
+        document.getElementById('scoreOnigiri').innerHTML = 'Score Onigiri = ' + scoreOnigiri;
+        document.getElementById('vidas').innerHTML = 'Vidas del Jugador = ' + vidas;
+    }
+    function limpiaCamino() {
+        world[ninjaman.y][ninjaman.x] = 0;
+    }
     function comprobarItem() {
         //Detecta que tipo[comida, enemigo, extras] acaba de interactuar
         if (world[ninjaman.y][ninjaman.x] == 2) {
@@ -196,50 +243,12 @@
             scoreFantasmas++;
         }
     }
-    // vidas del player
-    var vidas = 3;
-    // Scores
-    var scorePlayer = 0;
-    var scoreSushi = 0;
-    var scoreOnigiri = 0;
-    var scoreFantasmas = 0;
-    // puntos de los items
-    var scoreItems = {
-        sushi: 10,
-        onigiri: 5,
-        scaredy: 20
-    }
-    // Posicion inicial
-    var ninjaman = {
-        x: 5,
-        y: 5
-    }
-    // Se actualiza la posicion del Player
-    function drawNinjaman() {
-        document.getElementById('ninjaman').style.top = ninjaman.y * 40 + 'px';
-        document.getElementById('ninjaman').style.left = ninjaman.x * 40 + 'px';
-    }
-    // Actualizar Scores y Vida
-    function drawScore() {
-        document.getElementById('scorePlayer').innerHTML =
-            'Score Partida = ' + scorePlayer;
-        document.getElementById('scoreSushi').innerHTML =
-            'Score Sushi = ' + scoreSushi;
-        document.getElementById('scoreOnigiri').innerHTML =
-            'Score Onigiri = ' + scoreOnigiri;
-        document.getElementById('vidas').innerHTML =
-            'Vidas del Jugador = ' + vidas;
-    }
     // Generacion aleatoria desde un min a max
     function gr(min, max) {
         return Math.floor(Math.random() * (max - min) + min);
     }
-    // Actualizando posicion ninja y score
-    drawScore();
-    drawNinjaman();
     // detectando que tecla se ha pulsado 
     document.onkeydown = function (e) {
-
         if (vidas == 0) {
             return alert("Juego Terminado, haz quedado sin vidas!\nVidas: " + vidas + "\nScore: " + scorePlayer);;// Termina con el juego
         } else {
@@ -264,35 +273,21 @@
                 }
             }
             if (e.keyCode == 82) { // Reset Random World == tecla R
-                world = [
-                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                    [1, 0, gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), 1],
-                    [1, gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), 1],
-                    [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-                    [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-                    [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-                    [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-                    [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-                    [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-                    [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-                    [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                ];
+                for (var i = 0; i < world.length; i++) {
+                    for (var j = 0; j < world[i].length; j++) {
+                        console.log(world[i][1]);
+                        world[i][j] = gr(0, 8);
+                    }
+                }
             }
         }
-
-
         // funcionalidad
-        comprobarItem();
-        // limpia el mundo mientras avanza
-        world[ninjaman.y][ninjaman.x] = 0;
-        // Actualiza el mundo, score y posicion del personaje
         drawWorld();
-        drawScore();
         drawNinjaman();
-
+        drawScore();
+        comprobarItem();
+        limpiaCamino();
     }
-
     /*
     [Readys]
     [ok] keep score of how many sushi's ninjaman eats
