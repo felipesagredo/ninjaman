@@ -112,6 +112,11 @@
             margin: auto;
             padding: 10px;
         }
+
+        #informaciones {
+            background-color: burlywood;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -120,26 +125,28 @@
         <div id='world'></div>
         <div id='ninjaman'></div>
         <div id='mundo_random'> Presiona la tecla 'R' para crear un Mundo Aleatorio!</div>
+        <div id='informaciones'>
+            <div id='scorePlayer'></div>
+            <div id='scoreSushi'></div>
+            <div id='scoreOnigiri'></div>
+            <div id='vidas'></div>
+        </div>
     </div>
-    <div id='scorePlayer'></div>
-    <div id='scoreSushi'></div>
-    <div id='scoreOnigiri'></div>
-    <div id='vidas'></div>
 
 </body>
 <script type="text/javascript">
     var world = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 0, 2, 0, 0, 0, 6, 1],
-        [1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1],
-        [1, 2, 1, 0, 0, 3, 0, 0, 1, 2, 1],
-        [1, 0, 2, 0, 1, 1, 1, 0, 2, 0, 1],
-        [1, 0, 1, 0, 0, 7, 0, 0, 1, 3, 1],
-        [1, 0, 2, 0, 1, 1, 1, 0, 2, 0, 1],
-        [1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1],
-        [1, 0, 1, 0, 0, 3, 0, 0, 1, 0, 1],
-        [1, 2, 1, 0, 1, 1, 1, 0, 1, 2, 1],
-        [1, 8, 0, 2, 0, 0, 0, 2, 5, 0, 1],
+        [1, 0, gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), 1],
+        [1, gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), 1],
+        [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
+        [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(4, 7), gr(0, 4), 1],
+        [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
+        [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(4, 7), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
+        [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
+        [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
+        [1, gr(1, 4), gr(4, 7), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(4, 7), gr(0, 4), 1],
+        [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     ];
     var worldDict = {
@@ -189,7 +196,6 @@
             scoreFantasmas++;
         }
     }
-
     // vidas del player
     var vidas = 3;
     // Scores
@@ -213,7 +219,7 @@
         document.getElementById('ninjaman').style.top = ninjaman.y * 40 + 'px';
         document.getElementById('ninjaman').style.left = ninjaman.x * 40 + 'px';
     }
-
+    // Actualizar Scores y Vida
     function drawScore() {
         document.getElementById('scorePlayer').innerHTML =
             'Score Partida = ' + scorePlayer;
@@ -224,16 +230,18 @@
         document.getElementById('vidas').innerHTML =
             'Vidas del Jugador = ' + vidas;
         if (vidas == 0) {
-            alert("Juego Terminado!");
+            alert("Juego Terminado, haz quedado sin vidas!\nVidas: " + vidas + "\nScore: " + scorePlayer);
+            return;// Termina con el juego
         }
     }
+    // Generacion aleatoria desde un min a max
     function gr(min, max) {
         return Math.floor(Math.random() * (max - min) + min);
     }
-
+    // Actualizando posicion ninja y score
     drawScore();
     drawNinjaman();
-
+    // detectando que tecla se ha pulsado 
     document.onkeydown = function (e) {
         if (e.keyCode == 37) { // left
             if (world[ninjaman.y][ninjaman.x - 1] != 1) {
@@ -271,13 +279,15 @@
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             ];
         }
-        // add going down functionality
+        // funcionalidad
         comprobarItem();
-        // limpia el world
+        // limpia el mundo mientras avanza
         world[ninjaman.y][ninjaman.x] = 0;
-        drawScore();
+        // Actualiza el mundo, score y posicion del personaje
         drawWorld();
+        drawScore();
         drawNinjaman();
+
     }
 
     /*
@@ -288,10 +298,10 @@
     [ok](Básico) Agrega Onigiri como alimento alternativo para comer 
     [ok] Agrega fantasmas en el mundo
     [ok]advance challenges - random world
-
+    [ok](Avanzado) Dale a NinjaMan 3 vidas. El Juego termina cuando un fantasma toca a NinjaMan 3 veces
+    [ok](Intermedio) Genera un mundo aleatorio cuando se carga la página
+    
     [In Process]
-    [...](Intermedio) Genera un mundo aleatorio cuando se carga la página
-    (Avanzado) Dale a NinjaMan 3 vidas. El Juego termina cuando un fantasma toca a NinjaMan 3 veces
     
     [Upcoming features]
     hacker challenges - create ghosts that chase ninjaman
