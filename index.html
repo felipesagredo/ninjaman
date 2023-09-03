@@ -137,16 +137,16 @@
 <script type="text/javascript">
     var world = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), 1],
-        [1, gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), 1],
-        [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-        [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(4, 7), gr(0, 4), 1],
-        [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-        [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(4, 7), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-        [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-        [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-        [1, gr(1, 4), gr(4, 7), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(4, 7), gr(0, 4), 1],
-        [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
+        [1, 0, gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), 1],
+        [1, gr(0, 1), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 1), 1],
+        [1, gr(0, 1), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 1), 1],
+        [1, gr(0, 1), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(4, 7), gr(0, 1), 1],
+        [1, gr(0, 1), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 1), 1],
+        [1, gr(0, 1), gr(1, 4), gr(1, 4), gr(1, 4), gr(4, 7), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 1), 1],
+        [1, gr(0, 1), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 1), 1],
+        [1, gr(0, 1), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 1), 1],
+        [1, gr(0, 1), gr(4, 7), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(4, 7), gr(0, 1), 1],
+        [1, gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), gr(0, 1), 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     ];
     var worldDict = {
@@ -211,8 +211,8 @@
     }
     // Posicion inicial
     var ninjaman = {
-        x: 1,
-        y: 1
+        x: 5,
+        y: 5
     }
     // Se actualiza la posicion del Player
     function drawNinjaman() {
@@ -229,10 +229,6 @@
             'Score Onigiri = ' + scoreOnigiri;
         document.getElementById('vidas').innerHTML =
             'Vidas del Jugador = ' + vidas;
-        if (vidas == 0) {
-            alert("Juego Terminado, haz quedado sin vidas!\nVidas: " + vidas + "\nScore: " + scorePlayer);
-            return;// Termina con el juego
-        }
     }
     // Generacion aleatoria desde un min a max
     function gr(min, max) {
@@ -243,42 +239,49 @@
     drawNinjaman();
     // detectando que tecla se ha pulsado 
     document.onkeydown = function (e) {
-        if (e.keyCode == 37) { // left
-            if (world[ninjaman.y][ninjaman.x - 1] != 1) {
-                ninjaman.x--;
+
+        if (vidas == 0) {
+            return alert("Juego Terminado, haz quedado sin vidas!\nVidas: " + vidas + "\nScore: " + scorePlayer);;// Termina con el juego
+        } else {
+            if (e.keyCode == 37) { // left
+                if (world[ninjaman.y][ninjaman.x - 1] != 1) {
+                    ninjaman.x--;
+                }
+            }
+            if (e.keyCode == 39) { // right
+                if (world[ninjaman.y][ninjaman.x + 1] != 1) {
+                    ninjaman.x++;
+                }
+            }
+            if (e.keyCode == 38) { // down
+                if (world[ninjaman.y - 1][ninjaman.x] != 1) {
+                    ninjaman.y--;
+                }
+            }
+            if (e.keyCode == 40) { // up
+                if (world[ninjaman.y + 1][ninjaman.x] != 1) {
+                    ninjaman.y++;
+                }
+            }
+            if (e.keyCode == 82) { // Reset Random World == tecla R
+                world = [
+                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                    [1, 0, gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), 1],
+                    [1, gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), 1],
+                    [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
+                    [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
+                    [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
+                    [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
+                    [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
+                    [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
+                    [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
+                    [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
+                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                ];
             }
         }
-        if (e.keyCode == 39) { // right
-            if (world[ninjaman.y][ninjaman.x + 1] != 1) {
-                ninjaman.x++;
-            }
-        }
-        if (e.keyCode == 38) { // down
-            if (world[ninjaman.y - 1][ninjaman.x] != 1) {
-                ninjaman.y--;
-            }
-        }
-        if (e.keyCode == 40) { // up
-            if (world[ninjaman.y + 1][ninjaman.x] != 1) {
-                ninjaman.y++;
-            }
-        }
-        if (e.keyCode == 82) { // Reset Random World == tecla R
-            world = [
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 0, gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), 1],
-                [1, gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), gr(0, 4), 1],
-                [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-                [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-                [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-                [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-                [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-                [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-                [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-                [1, gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(1, 4), gr(0, 4), 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            ];
-        }
+
+
         // funcionalidad
         comprobarItem();
         // limpia el mundo mientras avanza
