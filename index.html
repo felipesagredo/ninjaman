@@ -159,7 +159,12 @@
     var scoreSushi = 0;
     var scoreOnigiri = 0;
     var scoreFantasmas = 0;
+
+    var numeroPersonaje = 0;
+    var maxFantasmas = 4;
+    var conteoFantasmas = 0;
     // puntos de los items
+
     var scoreItems = {
         sushi: 10,
         onigiri: 5,
@@ -188,8 +193,15 @@
     function generarMundoAleatorio() {
         for (var i = 0; i < world.length; i++) {
             for (var j = 0; j < world[i].length; j++) {
-                console.log(world[i][1]);
-                world[i][j] = gr(0, 8);
+                numeroPersonaje = gr(0, 8);
+                if (numeroPersonaje < 4) {
+                    world[i][j] = gr(0, 4);
+                } else if (conteoFantasmas >= maxFantasmas) {
+                    world[i][j] = gr(0, 4);
+                } else {
+                    world[i][j] = gr(4, 8);
+                    conteoFantasmas++;
+                }
             }
         }
     }
